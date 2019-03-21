@@ -9,18 +9,18 @@ export default class LineChart extends PureComponent {
     componentWillReceiveProps = async nextProps => {
         this.setState({ values: [] });
         const { values, timeout } = nextProps;
+        this.setState({
+            viewWindow: {
+                x: { min: Math.min(...values.map(v=>v.x)), max: Math.max(...values.map(v=>v.x)) },
+                t: { min: Math.min(...values.map(v=>v.t)), max: Math.max(...values.map(v=>v.t)) },
+            }
+        });
         if (!timeout) {
             this.setState({ values });
             return;
         }
         const val = [];
         const copy = Object.assign([], values);
-        await this.setState({
-            viewWindow: {
-                x: { min: copy[0].x, max: copy[copy.length - 1].x },
-                t: { min: copy[0].t, max: copy[copy.length - 1].t },
-            }
-        });
         val.push(copy.shift());
         this.setState({ values: val });
         while (copy.length) {
