@@ -5,16 +5,25 @@ import Grid from '@material-ui/core/Grid';
 
 import { euler, eulerMejorado, rungeKutta } from "./utils";
 
+const parseNumbers = ({t0, x0, n, h, timeout, ...rest})=>({
+  t0: parseInt(t0),
+  x0: parseInt(x0),
+  n: parseInt(n),
+  h: parseFloat(h),
+  timeout: parseInt(timeout),
+  ...rest
+});
+
 class App extends PureComponent {
   state = {};
 
   onSubmit = values => {
-    const { formula, t0, x0, n, h, time} = values;
+    const { formula, t0, x0, n, h, timeout} = parseNumbers(values);
     this.setState({
       simple: euler(formula, t0, x0, n, h),
       mejorado: eulerMejorado(formula, t0, x0, n, h),
       rungeKutta: rungeKutta(formula, t0, x0, n, h),
-      timeout: time,
+      timeout,
     });
   }
   render() {
