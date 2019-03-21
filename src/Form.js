@@ -18,17 +18,21 @@ const styles = theme => ({
 });
 
 class Form extends PureComponent {
+
+    state = {};
+    onChange = ({ target: { id, value } }) => this.setState({ [id]: id === "formula" ? value : id === "h" ? parseFloat(value) : parseInt(value) });
+
     render() {
-        const { classes, onChange, onSubmit } = this.props;
+        const { classes, onSubmit } = this.props;
         return (
             <Paper style={{ width: "100%" }} elevation={1}>
-                <form className={classes.container} autoComplete="off" onSubmit={onSubmit}>
+                <form className={classes.container} autoComplete="off" onSubmit={e=> e.preventDefault() || onSubmit(this.state)}>
                     <Grid container spacing={16}>
                         <Grid item xs={4}>
                             <TextField
                                 id="formula"
                                 label="f(x,t)"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 required
                                 className={classes.textField}
@@ -39,7 +43,7 @@ class Form extends PureComponent {
                                 id="t0"
                                 label="t0"
                                 type="number"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 required
                                 className={classes.textField}
@@ -50,7 +54,7 @@ class Form extends PureComponent {
                                 id="x0"
                                 label="x0"
                                 type="number"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 required
                                 className={classes.textField}
@@ -61,7 +65,7 @@ class Form extends PureComponent {
                                 id="n"
                                 label="n"
                                 type="number"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 required
                                 className={classes.textField}
@@ -71,7 +75,7 @@ class Form extends PureComponent {
                             <TextField
                                 id="h"
                                 label="h"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 required
                                 className={classes.textField}
@@ -81,7 +85,7 @@ class Form extends PureComponent {
                             <TextField
                                 id="time"
                                 label="Intervalo (ms)"
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 margin="normal"
                                 className={classes.textField}
                             />
